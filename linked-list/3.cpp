@@ -1,6 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// first node of loop in a linked list
+
 class Node {
 public:
 	int data;
@@ -33,7 +35,15 @@ void push(Node** head_ref, int new_data)
     (*head_ref) = new_node;
 }
 
-int detectLoop (Node* head) {
+// method 1
+// floyd's loop detection 
+// first check for the loop
+// the point where slow and fast meet, make fast slow now
+// and make slow to point to head
+// start traversing and the point where fast and slow meet
+// is the first node
+
+Node* detectLoopOrigin (Node* head) {
 	Node* slow = head;
 	Node* fast = head;
 
@@ -41,11 +51,34 @@ int detectLoop (Node* head) {
 		slow = slow -> next;
 		fast = fast -> next -> next;
 		if (slow == fast) {
-			return 1;
+			// loop found
+            break;
 		}
 	}
-	return 0;
+
+    if (slow != fast) {
+        return NULL;
+    }
+
+    slow = head;
+    while(slow != fast) {
+        slow = slow -> next;
+        fast = fast -> next;
+    }
+
+    return slow;
 }
+
+// method 2
+// create an extra node (temp), keep pointing each traversed node
+// to this temp node, whenever you encounter a node that is already
+// pointing to the temp node, a loop is found and the curr node is the
+// origing point of the node
+
+// method 3: hashing
+// create a set and or hash map and keep storing the address of the nodes
+// whenever a node is found whose address already exists then there is a loop
+// and current node is the starting point of the node
 
 /* Function to print linked list */
 void printList(Node* node)
@@ -67,9 +100,12 @@ int main()
     push(&head, 10);
  
     /* Create a loop for testing */
-    // head->next->next->next->next = head;
-    if (detectLoop(head))
+    head->next->next->next->next = head;
+    Node* orig = detectLoopOrigin(head);
+    if (orig != NULL) {
         cout << "Loop found";
+        cout << orig -> data;
+    }
     else
         cout << "No Loop";
     return 0;
