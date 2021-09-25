@@ -18,73 +18,81 @@ public:
 	}
 };
 
-	// gien two sorted linked list merge the two in place
-	// to create an overall sorted linked list
-Node* sortedMerge(Node* a, Node* b) {
-	Node* result = NULL;
-
-	// if any of the two is NULL return the other one
-	if (a == NULL) {
-		return (b);
-	} else {
-		return (a);
+Node* getTail (Node* head) {
+	Node* curr = head;
+	while (curr != NULL && curr -> next != NULL) {
+		curr = curr -> next;
 	}
-
-	// recursive step
-	// get the smaller one and then recurse for rest
-	// to get remaining linked list
-	if (a->data <= b->data) {
-		result = a;
-		result -> next = sortedMerge(a -> next, b);
-	} else {
-		result = b;
-		result -> next = sortedMerge(b -> next, a);
-	}
-	return (result);
+	return curr;
 }
 
-// split the linked list from middle and assin given
-// refrences to the head of two linked lists
-void splitInMiddle(Node* source, Node** frontRef, Node** backRef) {
+Node* getPartition (Node* head, Node* end, Node** newHead, Node** newEnd) {
 
-	Node* fast = source -> next;
-	Node* slow = source;
+	// keeping last node as pivot
+	Node* pivot = end;
+	Node *curr = head, *prev = NULL, *tail = NULL;
 
-	// keep advancing while fast is not null
-	while (fast != NULL) {
-		fast = fast -> next;
-		if (fast != NULL) {
-			slow = slow -> next;
-			fast = fast -> next;
+	while(curr != pivot) {
+		if (curr -> data < pivot -> data) {
+			if (*newHead == NULL) {
+				*newHead = curr;
+			}
+			prev = curr;
+			curr -> next = next;
+		} else {
+			if (prev) {
+				prev -> next = curr -> next;
+			}
+			Node *temp = curr -> next;
+			curr -> next = NULL;
+			tail -> next = curr;
+			tail = curr;
+			curr = temp;
 		}
 	}
 
-	*frontRef = source;
-	*backRef = slow -> next;
-	slow -> next = NULL;
+	// if pivot data is the smallest element
+	// in the current list
+	if ((*newHead) == NULL) {
+		*newHead = pivot
+	}
+	*newEnd = tail;
+
+	return pivot;
 }
 
-void mergeSort(Node** head_ref) {
-
-	Node* head = *head_ref;
-	Node* a = NULL;
-	Node* b = NULL;
-
-	// base case
-	if (head == NULL || head -> next == NULL) {
-		return ;
-	}
+Node* quickSortRecur (Node* head, Node* end) {
 	
-	// split the head node into two linked lists
-	// and store them in a and b
-	splitInMiddle(head, &a, &b);
+	// base case
+	if (head == NULL || head == end) {
+		return head;
+	}
 
-	// perform mergeSort on two linked lists recursiveley
-	mergeSort(&a);
-	mergeSort(&b);
+	Node *newHead = NULL, *newEnd = NULL;
 
-	// merge the two lists
-	*head_ref = sortedMerge(a, b);
+	Node *piv = partition(head, end, &newHead, &newEnd);
+
+	// if newHead is equal to pivot there is no left list
+	if (newHead != pivot) {
+		Node *temp = newHead;
+		while (temp->next != pivot) {
+			temp = temp -> next;
+		}
+		temp -> next = NULL;
+
+		newHead = quickSortRecur(newHead, temp);
+
+		temp = getTail(newHead);
+		temp -> next = pivot;
+	}
+	pivot -> next = quickSortRecur(pivot -> next, newEnd);
+	return newHead;
+
+}
+
+void quickSort (Node **head_ref) {
+	(*head_ref) = quickSortRecur(*head_ref, getTail(*head_ref));
+	return;
 }
 
 int main() {
