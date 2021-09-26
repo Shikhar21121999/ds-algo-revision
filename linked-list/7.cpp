@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// remove duplicates from a un-sorted linked list
+// add 1 to a linked list which represent a number
 
 class Node {
 public:
