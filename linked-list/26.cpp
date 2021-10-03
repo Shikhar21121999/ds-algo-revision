@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// Partitioning a linked list around a given value and keeping the original order
+// sort a linked list of 0's, 1's and 2's
 
 class Node {
 public:
@@ -18,23 +18,23 @@ public:
 	}
 };
 
-Node* partitionPiv (Node* head, int piv) {
-	Node* lessHead = NULL;
-	Node* greatHead = NULL;
-	Node* eqHead = NULL;
-	Node* lessCurr = NULL;
-	Node* greatCurr = NULL;
-	Node* eqCurr = NULL;
-	Node* curr = NULL;
+// call with piv = 0
+Node* partitionPiv(Node* head, int piv) {
+
+	Node *lessHead = *lessCurr = NULL;
+	Node *eqHead = *eqCurr = NULL;
+	Node *greatHead = *greatCurr = NULL;
+	Node *curr = head;
 
 	while(curr != NULL) {
+
 		if (curr -> data < piv) {
-			if (lessHead == NULL) {
+			if (lessHead == NULL){
 				lessHead = curr;
 				lessCurr = curr;
 			} else {
 				lessCurr -> next = curr;
-				lessCurr = lessCurr -> next;
+				lessCurr = curr;
 			}
 		} else if (curr -> data == piv) {
 			if (eqHead == NULL) {
@@ -42,23 +42,20 @@ Node* partitionPiv (Node* head, int piv) {
 				eqCurr = curr;
 			} else {
 				eqCurr -> next = curr;
-				eqCurr = eqCurr -> next;
+				eqCurr = curr;
 			}
-		} else if (curr -> data > piv) {
+		} else {
 			if (greatHead == NULL) {
-				greatHead = curr;
+				greatHead -> next = curr;
 				greatCurr = curr;
 			} else {
 				greatCurr -> next = curr;
-				greatCurr = greatCurr -> next;
+				greatCurr = curr;
 			}
 		}
-		curr = curr -> next;
 	}
 
-	// joining the linked lists
-
-	// smaller list is empty
+	// if  smaller list is empty
 	if (lessHead == NULL) {
 		if (eqHead == NULL) {
 			return greatHead;
@@ -69,11 +66,11 @@ Node* partitionPiv (Node* head, int piv) {
 
 	// if equal list is empty
 	if (eqHead == NULL) {
-		lessHead -> next = greatHead;
+		lessCurr -> next = greatHead;
 		return lessHead;
 	}
 
-	// if smaller and equal list are non-empty
+	// if smaller list is non empty and equal list is non empty
 	lessCurr -> next = eqHead;
 	eqCurr -> next = greatHead;
 	return lessHead;

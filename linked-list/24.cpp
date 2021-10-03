@@ -21,18 +21,31 @@ public:
 	}
 };
 
-Node* reverseInGroups (Node* head) {
+Node* reverseInGroups (Node* head, int k) {
 
-	// reverse first 7 nodes
+	// reverse first k nodes
 	int count = 0;
 	Node *curr = head;
+	Node *newHead = NULL;
 	while (count < n && curr != NULL) {
+		newHead = curr;
 		Node* temp = curr -> prev;
 		curr -> prev = curr -> next;
 		curr -> next = temp;
 		curr = curr -> prev;
+		count ++;
 	}
 
+	// if count >= k it means there are nodes remaining
+	if (count >= k) {
+		Node* rest = reverseInGroups(curr, k);
+		head -> next = rest;
+		if (rest != NULL) {
+			rest -> prev = head;
+		}
+	}
+
+	return newHead;
 	
 }
 
