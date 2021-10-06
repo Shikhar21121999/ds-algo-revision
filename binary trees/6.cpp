@@ -1,7 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// Mirror of a tree
+// Inorder Traversal of Binary Tree
+// Left -> Root -> Right
 
 class Node{
 public:
@@ -22,18 +23,19 @@ public:
 	}
 };
 
-Node* reflect(Node* root) {
-	if (root == nullptr or (root -> left == nullptr and root -> right == nullptr)) {
-		return root;
-	} else {
-		Node *leftRef = reflect(root -> left);
-		Node *rightRef = reflect(root -> right);
+void inorderRecursive(Node *root) {
+	if (root == nullptr) return;
 
-		root -> left = rightRef;
-		root -> right = leftRef;
-		return root;
-	}
+	// recurse left
+	inorderRecursive(root -> left);
+
+	// print current
+	cout << root -> data << " ";
+
+	// recurse right
+	inorderRecursive(root -> right);
 }
+
 void inorderIterative(Node* root) {
 	stack <Node *> st;
 
@@ -55,13 +57,10 @@ void inorderIterative(Node* root) {
 
 int main() {
 	// create binary tree
-	Node *root = new Node(5);
-	root -> left = new Node(3);
-	root -> right = new Node(6);
-	root -> left -> left = new Node(2);
-	root -> left -> right = new Node(4);
-	inorderIterative(root);
-	cout <<endl;
-	Node* refroot = reflect(root);
-	inorderIterative(refroot);
+	Node *root = new Node(1);
+	root -> left = new Node(2);
+	root -> right = new Node(3);
+	root -> left -> left = new Node(4);
+	root -> left -> right = new Node(5);
+	reverseLevelOrderTraversal(root);
 }
