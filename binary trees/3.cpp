@@ -24,16 +24,12 @@ public:
 
 void heightOfTree(Node *root) {
 	if (root == nullptr) {
-		return 1;
+		return -1;
 	}
 
 	int ltree = rtree = 0;
-
-	if(root -> left != nullptr) {
-		ltree = heightOfTree(root -> left);
-	} if (root -> right != nullptr) {
-		rtree = heightOfTree(root -> right);
-	}
+	ltree = heightOfTree(root -> left);
+	rtree = heightOfTree(root -> right);
 
 	return 1 + max(ltree, rtree);
 }

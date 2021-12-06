@@ -34,14 +34,21 @@ vector<int> leftView(Node *root) {
 
 	q.push(curr);
 	while(!q.empty()) {
-		Node *curr = q.front();
-		q.pop();
-		a.push_back(curr -> data);
+		int n = q.size();
 
-		if (curr -> left) {
-			q.push(curr -> left);
-		} else if (curr -> right) {
-			q.push(curr -> right);
+		for(int i=1;i<=n;i++){
+			Node* curr = q.front();
+			q.pop();
+
+			if(i==1){
+				a.push_back(curr->data);
+			} else {
+				if (curr -> left != NULL) {
+					q.push(curr -> left);
+				} if (curr -> right != NULL) {
+					q.push(curr -> right);
+				}
+			}
 		}
 	}
 	return a;
