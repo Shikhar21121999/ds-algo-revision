@@ -2,6 +2,7 @@
 using namespace std;
 
 // Top view of a binary tree is the set of nodes visible when the tree is viewed from the top
+// modifying the tree is allowedf
 
 class Node{
 public:
@@ -67,8 +68,5 @@ int main() {
 	root->right->left->left = new Node(7);
 	root->right->left->right = new Node(8);
 
-	vector <int> result = rightView(root);
-	for (auto x: result) {
-		cout << x << " ";
-	}
+	topView(root);
 }

@@ -30,16 +30,16 @@ vector<int> zigZag(Node *root) {
     q.push_back(root);
     v.push_back(root->data);
     Node* temp;
-   
+
     // set initial level as 1, because root is
     // already been taken care of.
     int l = 1;
                 
     while (!q.empty()) {
         int n = q.size();
- 
+
         for (int i = 0; i < n; i++) {
- 
+
             // popping mechanism
             if (l % 2 == 0) {
                 temp = q.back();
@@ -49,10 +49,10 @@ vector<int> zigZag(Node *root) {
                 temp = q.front();
                 q.pop_front();
             }
- 
+
             // pushing mechanism
             if (l % 2 == 0) {
- 
+
                 if (temp->left) {
                     q.push_front(temp->left);
                     v.push_back(temp->left->data);
@@ -62,7 +62,7 @@ vector<int> zigZag(Node *root) {
                     v.push_back(temp->right->data);
                 }
             } else if (l % 2 != 0) {
- 
+
                 if (temp->right) {
                     q.push_back(temp->right);
                     v.push_back(temp->right->data);
@@ -89,7 +89,7 @@ int main() {
 	root->right->left->left = new Node(7);
 	root->right->left->right = new Node(8);
 
-	vector <int> result = rightView(root);
+	vector <int> result = zigZag(root);
 	for (auto x: result) {
 		cout << x << " ";
 	}

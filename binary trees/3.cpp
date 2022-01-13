@@ -22,12 +22,12 @@ public:
 	}
 };
 
-void heightOfTree(Node *root) {
+int heightOfTree(Node *root) {
 	if (root == nullptr) {
 		return -1;
 	}
 
-	int ltree = rtree = 0;
+	int ltree = 0, rtree = 0;
 	ltree = heightOfTree(root -> left);
 	rtree = heightOfTree(root -> right);
 
@@ -41,5 +41,5 @@ int main() {
 	root -> right = new Node(3);
 	root -> left -> left = new Node(4);
 	root -> left -> right = new Node(5);
-	reverseLevelOrderTraversal(root);
+	heightOfTree(root);
 }

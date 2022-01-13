@@ -38,6 +38,7 @@ void postorderRecursive (Node* root) {
 	cout << root -> data << " ";
 }
 
+// two stack
 void postorderIterative (Node* root) {
 
 	stack <Node *> st;
@@ -65,6 +66,55 @@ void postorderIterative (Node* root) {
 		Node *curr = out.top();
 		out.pop();
 		cout << curr -> data << " ";
+	}
+}
+
+/*
+	A bit hard to understand, for understanding please follow comments
+	along with basic approach to solve the question
+	we use stack to emulate recursion along with implementation
+	to support the required flow
+*/
+void postorderIterative1 (Node *root) {
+	vector <int> postOrder; // stores the result
+
+	stack <Node*> st;
+	Node *curr = root;
+
+	// curr is the pointer to the node or even nullptr if required
+	while (curr != nullptr or !st.empty()) {
+		if (curr != nullptr) {
+			st.push(curr); // push curr in stack
+			curr = curr -> left; // first recurse for left subtree
+		} else {
+			// here curr is nullptr curr does not have left or right
+			// get the node from stack
+			// this is a node whose left is visited
+			Node* ancestor = st.top();
+			// now either this nodes has a right subtree (unvisited) and needs to be visited
+			if (ancestor -> right != nullptr) {
+				curr = ancestor -> right;
+			} else {
+				// or this node does not have a right subtree
+				// in this particular case we get that left subtree for ancestor is visited and right subtree for ancestor does not exist
+				// hence we need to just visit the node
+				postOrder.push_back(ancestor -> data);
+				st.pop();
+				// now there is a possibility of having a tree like this
+				/*
+					1
+						2
+							3
+								4
+				basically right right right
+				*/
+				// we will try to visit all such ancestor nodes in one sweep
+				while(!st.empty() && ancestor == st.top() -> right) {
+					ancestor = st.top(); st.pop();
+					postOrder.push_back(ancestor -> data);
+				}
+			}
+		}
 	}
 }
 

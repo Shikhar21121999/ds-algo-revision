@@ -23,6 +23,11 @@ public:
 	}
 };
 
+/*
+Approach is to get first node at each level
+of level order traversal of the binary tree
+*/
+
 vector<int> leftView(Node *root) {
 	Node *curr = root;
 

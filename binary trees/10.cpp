@@ -23,6 +23,31 @@ public:
 	}
 };
 
+/*
+Method 1
+Approach is to do visit right subtree first for level
+This ensures that the first node visited for a level will be the rightmost node
+for that level
+*/
+void recur(Node* root, int level, vector<int> &res) {
+	if (root == nullptr) return;
+	if (res.size() < level) res.push_back(root -> data);
+	if (root -> right != nullptr) recur(root -> right, level + 1, res);
+	if (root -> left != nullptr) recur(root -> left, level + 1, res);
+}
+
+vector<int> rightSideView(Node* root) {
+	vector <int> res;
+	if (root == nullptr) return res;
+	recur(root, 1, res);
+	return res;
+}
+
+/*
+Method 2
+Approach is to do level order traversal 
+and collect the last node for the level
+*/
 vector<int> rightView(Node *root) {
 	Node *curr = root;
 

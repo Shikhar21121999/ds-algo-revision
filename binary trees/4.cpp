@@ -22,12 +22,12 @@ public:
 	}
 };
 
-void heightOfTree(Node *root) {
+int heightOfTree(Node *root) {
 	if (root == nullptr) {
 		return -1;
 	}
 
-	int ltree = rtree = 0;
+	int ltree = 0, rtree = 0;
 	ltree = heightOfTree(root -> left);
 	rtree = heightOfTree(root -> right);
 
@@ -39,12 +39,12 @@ int diameterTree(Node *root) {
 	// base case
 	if (root == nullptr) return 0;
 
-	int lTreeDia = rTreeDia = 0;
+	int lTreeDia = 0, rTreeDia = 0;
 	// diameter through the root
 	int selfDia = heightOfTree(root -> left) + heightOfTree(root -> right) + 1;
 
-		lTreeDia = diameterTree(root -> left);
-		rTreeDia = diameterTree(root -> right);
+	lTreeDia = diameterTree(root -> left);
+	rTreeDia = diameterTree(root -> right);
 
 	return max(rTreeDia, max(selfDia,lTreeDia));
 	
@@ -57,5 +57,5 @@ int main() {
 	root -> right = new Node(3);
 	root -> left -> left = new Node(4);
 	root -> left -> right = new Node(5);
-	reverseLevelOrderTraversal(root);
+	diameterTree(root);
 }
