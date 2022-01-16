@@ -6,11 +6,12 @@ using namespace std;
 # define space " "
 // bfs on a graph
 
+// performs bfs on a connected component in graph
+// starting from node
 void bfs(vvi &graph, vi &vis, int node) {
     // fifo ds is required
     queue <int> q;
     q.push(node);
-    vis[node] = 1;
 
     while(!q.empty()) {
         int curr_node = q.front();
@@ -18,7 +19,7 @@ void bfs(vvi &graph, vi &vis, int node) {
         // do something with the node
         cout << curr_node << newLine;
         for (auto x: graph[curr_node]) {
-            if (!vis[curr_node]) {
+            if (!vis[x]) {
                 vis[x] = 1;
                 q.push(x);
             }
@@ -45,5 +46,9 @@ int main() {
     }
 
     // start bfs from node 1
-    bfs(adj, vis, 0);
+    for (int i = 0; i < n; i++) {
+        if (!vis[i]) {
+            bfs(adj, vis, i);
+        }
+    }
 }

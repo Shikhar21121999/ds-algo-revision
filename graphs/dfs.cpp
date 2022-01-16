@@ -8,9 +8,9 @@ using namespace std;
 
 void dfs(vvi &graph, vi &vis, int node) {
     cout << "visiting node " << node << newLine; 
+    vis[node] = 1;
     for (auto x: graph[node]) {
         if (!vis[x]) {
-            vis[x] = 1;
             dfs(graph, vis, x);
         }
     }
@@ -35,6 +35,9 @@ int main() {
     }
 
     // start dfs from node 1
-    vis[0] = 1;
-    dfs(adj, vis, 0);
+    for (int i = 0; i < n; i++) {
+        if (!vis[i]) {
+            dfs(adj, vis, i);
+        }
+    }
 }
