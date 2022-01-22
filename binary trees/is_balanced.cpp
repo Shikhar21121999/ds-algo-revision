@@ -39,7 +39,7 @@ bool isBalanced(Node *root) {
 }
 
 bool isBalancedOptimized(Node *root, int *height) {
-	int lh = rh = 0;
+	int lh = 0, rh = 0;
 
 	if (root == nullptr) {
 		*height = 0;
@@ -64,8 +64,4 @@ int main() {
 	root->right->left->left = new Node(7);
 	root->right->left->right = new Node(8);
 
-	vector <int> result = rightView(root);
-	for (auto x: result) {
-		cout << x << " ";
-	}
 }

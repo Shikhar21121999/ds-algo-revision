@@ -36,13 +36,26 @@ bool dfsCycle(vvi &graph, vi &vis, int node) {
                 return true;
             }
         } else if(vis[x] == 1) {
-            // we found a node dfs on which is not complete
+            // we found a node, dfs on which is not complete
             // thereby a cycle
             return true;
         }
     }
     // dfs on node complete
     vis[node] = 2;
+    return false;
+}
+
+bool isCyclic(vvi &adj, int n) {
+    vi vis(n, 0);
+
+    // perform dfs on nodes which are not yet visited
+    for (int i=0; i < n; i++) {
+        // this checks if we found a cycle on un-visited node
+        if (vis[i] == 0 && dfsCycle(adj, vis, i)) {
+            return true;
+        }
+    }
     return false;
 }
 
@@ -54,7 +67,7 @@ int main() {
     cin >> n >> edge;
 
     vvi adj(n);
-    vi vis(n, 0);
+    
 
     // edge is represented as two numbers p,q
     // where edge is from p -> q
@@ -64,12 +77,6 @@ int main() {
         adj[p].push_back(q);
     }
 
-    // perform dfs on nodes which are not yet visited
-    for (int i=0; i < n; i++) {
-        // this checks if we found a cycle on un-visited node
-        if (vis[i] == 0 && dfsCycle(adj, vis, i)) {
-            cout << "cycle detected" << endl;
-            break;
-        }
-    }
+    cout << isCyclic(adj, n);
+
 }

@@ -37,13 +37,7 @@ bool dfsCycle(vvi &graph, vi &vis, vi &parent, int node, int &cycleStart, int &c
     return false;
 }
 
-vector <int> getCycle(int n, vvi &edges) {
-    // create undirected graph adjacency list representation
-    vvi adj(n);
-
-    for (auto x: edges) {
-        adj[x[0]].push_back(x[1]);
-    }
+vector <int> getCycle(vvi &adj, int n) {
 
     // check if cycle exists and get start and end point
     vi vis(n,0);
@@ -62,19 +56,19 @@ vector <int> getCycle(int n, vvi &edges) {
 
     if (!cyclic) {
         return {-1};
-    } else {
-        // what we need to do is go from cycle end to cycleStart
-        // while appending nodes into an array, at the end
-        // we can reverse the array
-        vi cyclePath;
-        for (int v=cycleEnd; v != cyclestart; v = parent[v]) {
-            cyclePath.push_back(v);
-        }
-        cyclePath.push_back(cyclestart);
-        // reverse the cyclePath
-        reverse(cyclePath.begin(), cyclePath.end());
-        return cyclePath;
     }
+    // what we need to do is go from cycle end to cycleStart
+    // while appending nodes into an array, at the end
+    // we can reverse the array
+    vi cyclePath;
+    cyclePath.push_back(cyclestart);
+    for (int v=cycleEnd; v != cyclestart; v = parent[v]) {
+        cyclePath.push_back(v);
+    }
+    cyclePath.push_back(cyclestart);
+    // reverse the cyclePath
+    reverse(cyclePath.begin(), cyclePath.end());
+    return cyclePath;
 }
 
 // general function to denote nodes in a graph
@@ -90,6 +84,13 @@ int main() {
         edges.push_back(vector <int> {node1, node2});
     }
 
+    // create undirected graph adjacency list representation
+    vvi adj(n);
+
+    for (auto x: edges) {
+        adj[x[0]].push_back(x[1]);
+    }
+
     // abstract function for creating cycle
-    vector <int> cycle = getCycle(n, edges);
+    vector <int> cycle = getCycle(adj, n);
 }

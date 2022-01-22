@@ -9,22 +9,14 @@ using namespace std;
 #define tab "\t"
 #define newLine "\n"
 
-bool isBfsCycle(vvi &adj, vi &vis, int i, int n) {
-    queue < pair <int, int> > q;
-    q.push({i, -1}); // first node has no parent
-
-    while (!q.empty()) {
-        auto curr = q.front(); q.pop();
-
-        // perform bfs
-        for (auto x: adj[curr.first]) {
-            if(!vis[x]) {
-                vis[x] = true;
-                q.push({x, curr.first});
-            } else {
-                if (x != curr.second) {
-                    return true;
-                }
+bool isDfsCycle(vvi &adj, vi &vis, int i, int pre) {
+    vis[i] = 1;
+    for(auto x: adj[i]) {
+        if (!vis[x] && isDfsCycle(adj, vis, x, i)) {
+            return true;
+        } else {
+            if (x != pre) {
+                return true;
             }
         }
     }
@@ -36,7 +28,7 @@ bool isCycle(int n, vvi &adj) {
     vi vis(n, 0);
 
     for(int i = 0; i < n; i++) {
-        if (!vis[i] && isBfsCycle(adj, vis, i, n)) {
+        if (!vis[i] && isDfsCycle(adj, vis, i, -1)) {
             return true;
         } 
     }
