@@ -66,6 +66,54 @@ vector <int> topView(Node *root) {
 
 }
 
+/*
+possible improvement is to calculate smallest and greatest hd
+all the hd will be in between in these both inclusive thus we can
+save sorting by running and collecting values using a simple for loop
+*/
+
+vector <int> topView(Node *root) {
+    // base case
+	vector <int> ans;
+	unordered_map < int, int > recd;
+    if (root == nullptr) return ans;
+
+	// use queue for bfs
+	queue <pair <Node*, int> > q;
+	q.push({root, 0});
+
+	int smHd = 1;
+	int maxHd = -1;
+
+	while (!q.empty()) {
+		Node* curr = q.front().first;
+		int hd = q.front().second;
+
+		q.pop();
+
+		if (recd.find(hd) == recd.end()) {
+			recd[hd] = curr -> data;
+			smHd = min(smHd, hd);
+			maxHd = max(maxHd, hd);
+		}
+
+		// push left and right nodes
+		if (root -> left != NULL) {
+			q.push({root -> left, hd - 1});
+		}
+
+		if (root -> right != NULL) {
+			q.push({root -> right, hd + 1});
+		}
+	}
+
+	for (int i = smHd; i <= maxHd; i++) {
+		ans.push_back(recd[i]);
+	}
+	return ans;
+
+}
+
 
 
 int main() {

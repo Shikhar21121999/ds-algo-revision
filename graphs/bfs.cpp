@@ -48,6 +48,7 @@ int main() {
     // start bfs from node 1
     for (int i = 0; i < n; i++) {
         if (!vis[i]) {
+            vis[i] = 1;
             bfs(adj, vis, i);
         }
     }

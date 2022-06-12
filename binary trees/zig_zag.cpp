@@ -24,6 +24,8 @@ public:
 	}
 };
 
+// using double ended queue
+
 vector<int> zigZag(Node *root) {
 	deque<Node*> q;
     vector<int> v;
@@ -78,6 +80,11 @@ vector<int> zigZag(Node *root) {
     }
     return v;
 }
+
+// using simple queue
+// this can be simply done using level order traversal
+// we just have to insert a mechanism to reverse a level depending
+// on the level number
 
 int main() {
 	// create binary tree
